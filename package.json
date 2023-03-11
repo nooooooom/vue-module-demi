@@ -13,7 +13,8 @@
     "vue-demi"
   ],
   "files": [
-    "lib"
+    "lib",
+    "scripts"
   ],
   "repository": {
     "type": "git",
