@@ -1,11 +1,11 @@
 {
   "name": "vue-module-demi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "nooooooom <https://github.com/nooooooom>",
   "description": "⚖️ Ensure module export consistency for Vue2 & 3",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
   "license": "MIT",
   "keywords": [
     "Vue",
