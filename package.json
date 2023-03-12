@@ -1,6 +1,6 @@
 {
   "name": "vue-module-demi",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "nooooooom <https://github.com/nooooooom>",
   "description": "⚖️ Ensure module export consistency for Vue2 & 3",
   "main": "lib/index.cjs",
