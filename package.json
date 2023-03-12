@@ -3,8 +3,8 @@
   "version": "0.0.3",
   "author": "nooooooom <https://github.com/nooooooom>",
   "description": "⚖️ Ensure module export consistency for Vue2 & 3",
-  "main": "lib/index.js",
-  "module": "lib/index.mjs",
+  "main": "lib/index.cjs",
+  "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
   "keywords": [
