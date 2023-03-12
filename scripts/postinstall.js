@@ -10,6 +10,8 @@ function guide() {
     if (+version.split('.')[0] !== 3) {
       current = LEGACY_OUTPUT
     }
+    // live updates with the latest version of the leading exports in the current library
+    require('./sync-fresh-exports')
   } catch (error) {}
 
   readdirSync(current).forEach(path => {
