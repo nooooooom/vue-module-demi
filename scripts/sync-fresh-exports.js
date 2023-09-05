@@ -2,27 +2,28 @@ const { writeFileSync, existsSync, mkdirSync } = require('node:fs')
 const { join } = require('node:path')
 const Vue = require('vue')
 const LegacyVue = require('vue2')
-const { DEFAULT_OUTPUT, LEADING_OUTPUT, LEGACY_OUTPUT } = require('./constants')
+const { MAIN_DIR, LEGACY_DIR, LEADING_DIR } = require('./constants')
 
 const DEPRECATED_WARNING = '/** @deprecated This is a new API for Vue3 */'
 
 function syncFreshExports() {
-  const outputs = [DEFAULT_OUTPUT, LEADING_OUTPUT, LEGACY_OUTPUT]
-  for (const output of outputs) {
-    if (!existsSync(output)) {
-      mkdirSync(output)
+  // make sure that the export folder exists
+  const dirs = [MAIN_DIR, LEGACY_DIR, LEADING_DIR]
+  for (const dir of dirs) {
+    if (!existsSync(dir)) {
+      mkdirSync(dir)
     }
   }
 
-  const defaultOutputs = [DEFAULT_OUTPUT, LEADING_OUTPUT]
-  for (const output of defaultOutputs) {
-    writeFileSync(join(output, 'index.js'), genCommonESM(false, true), 'utf-8')
+  const defaultDirs = [MAIN_DIR, LEADING_DIR]
+  for (const dir of defaultDirs) {
+    writeFileSync(join(dir, 'index.js'), genCommonESM(false, true), 'utf-8')
     writeFileSync(
-      join(output, 'index.cjs'),
+      join(dir, 'index.cjs'),
       genCommonCommonJS(false, true),
       'utf-8'
     )
-    writeFileSync(join(output, 'index.d.ts'), genCommonDTS(), 'utf-8')
+    writeFileSync(join(dir, 'index.d.ts'), genCommonDTS(false, true), 'utf-8')
   }
 
   const freshExports = {}
@@ -33,17 +34,17 @@ function syncFreshExports() {
   })
 
   writeFileSync(
-    join(LEGACY_OUTPUT, 'index.js'),
+    join(LEGACY_DIR, 'index.js'),
     genLegacyESM(freshExports),
     'utf-8'
   )
   writeFileSync(
-    join(LEGACY_OUTPUT, 'index.cjs'),
+    join(LEGACY_DIR, 'index.cjs'),
     genLegacyCommonJS(freshExports),
     'utf-8'
   )
   writeFileSync(
-    join(LEGACY_OUTPUT, 'index.d.ts'),
+    join(LEGACY_DIR, 'index.d.ts'),
     genLegacyDTS(freshExports),
     'utf-8'
   )
@@ -75,7 +76,7 @@ function genLegacyDTS(modules) {
     )
   }, '')
 
-  return `${genCommonDTS()}\n${fresh}`
+  return `${genCommonDTS(true, false)}\n${fresh}`
 }
 
 function genCommonESM(isVue2, isVue3) {
@@ -83,7 +84,9 @@ function genCommonESM(isVue2, isVue3) {
 var isVue3 = ${isVue3}
 
 export * from 'vue'
-export { isVue2, isVue3 }`
+export { isVue2, isVue3 }
+${isVue2 ? `\nexport { default as Vue } from 'vue'` : ''}
+${isVue3 ? 'export default undefined' : ''}`
 }
 
 function genCommonCommonJS(isVue2, isVue3) {
@@ -94,12 +97,16 @@ Object.keys(Vue).forEach(function (key) {
 })
 
 exports.isVue2 = ${isVue2}
-exports.isVue3 = ${isVue3}`
+exports.isVue3 = ${isVue3}
+${isVue2 ? `\nexports.default = Vue.default` : ''}
+${isVue3 ? 'export default undefined' : ''}`
 }
 
-function genCommonDTS() {
+function genCommonDTS(isVue2, isVue3) {
   return `export declare const isVue2: boolean
 export declare const isVue3: boolean
 
-export * from 'vue'`
+export * from 'vue'
+${isVue2 ? `\nexport type { default as Vue } from 'vue'` : ''}
+${isVue3 ? 'export default undefined' : ''}`
 }

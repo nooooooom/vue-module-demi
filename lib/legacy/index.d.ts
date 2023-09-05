@@ -2,6 +2,9 @@ export declare const isVue2: boolean
 export declare const isVue3: boolean
 
 export * from 'vue'
+
+export type { default as Vue } from 'vue'
+
 /** @deprecated This is a new API for Vue3 */
 export declare const compile: typeof undefined
 /** @deprecated This is a new API for Vue3 */
