@@ -99,7 +99,7 @@ Object.keys(Vue).forEach(function (key) {
 exports.isVue2 = ${isVue2}
 exports.isVue3 = ${isVue3}
 ${isVue2 ? `\nexports.default = Vue.default` : ''}
-${isVue3 ? 'export default undefined' : ''}`
+${isVue3 ? 'exports.default = undefined' : ''}`
 }
 
 function genCommonDTS(isVue2, isVue3) {
