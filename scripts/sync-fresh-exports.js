@@ -85,7 +85,8 @@ var isVue3 = ${isVue3}
 
 export * from 'vue'
 export { isVue2, isVue3 }
-${isVue2 ? `\nexport { default as Vue } from 'vue'` : ''}
+${isVue2 ? `\nimport Vue from 'vue'
+export default Vue` : ''}
 ${isVue3 ? 'export default undefined' : ''}`
 }
 
