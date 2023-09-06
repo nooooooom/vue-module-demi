@@ -1,7 +1,7 @@
 const { writeFileSync, existsSync, mkdirSync } = require('node:fs')
 const { join } = require('node:path')
 const Vue = require('vue')
-const LegacyVue = require('vue2')
+const LegacyVue = require('vue')
 const { MAIN_DIR, LEGACY_DIR, LEADING_DIR } = require('./constants')
 
 const DEPRECATED_WARNING = '/** @deprecated This is a new API for Vue3 */'
