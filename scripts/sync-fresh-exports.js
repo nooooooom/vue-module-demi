@@ -1,6 +1,6 @@
 const { writeFileSync, existsSync, mkdirSync } = require('node:fs')
 const { join } = require('node:path')
-const Vue = require('vue')
+const Vue = require('vue3')
 const LegacyVue = require('vue')
 const { MAIN_DIR, LEGACY_DIR, LEADING_DIR } = require('./constants')
 
